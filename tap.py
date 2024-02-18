@@ -16,8 +16,11 @@ def calculate_bpm():
         #calculate difference between first and last click
         time_diff = click_times[-1] - click_times[-2]
         #calculate bpm based on time difference
-        bpm = int(60 / time_diff)
-        bpm_label.config(text=f"BPM: + {bpm}")
+        if time_diff > 0:
+            bpm = int(60 / time_diff)
+            bpm_label.config(text=f"BPM: {bpm:.2f}")
+        else:
+            bpm_label.config(text="BPM: Max")
     else:
         bpm_label.config(text="BPM: N/A")
 
@@ -46,14 +49,14 @@ root.geometry("300x200")
 
 # Create and place bpm label
 
-bpm_label = tk.Label(root, text="BPM: N/A", font=("Helvetica", 24))
+bpm_label = tk.Label(root, text="BPM: N/A", font=("Verdana", 24))
 bpm_label.pack(pady=20)
 
 # Create and place start/stop button
-start_stop_button = tk.Button(root, text="Start", font=("Helvetica", 18), command=start_stops)
+start_stop_button = tk.Button(root, text="Start", font=("Verdana", 18), command=start_stops)
 start_stop_button.pack(pady=20)
 
-root.bind("<Button-1>", handle_click)
-root.bind("<space>", handle_click)
+root.bind("<Button>", handle_click)
+root.bind("<Key>", handle_click)
 
 root.mainloop()
